@@ -1,0 +1,36 @@
+{
+    "name":"cfcrudgen",
+    "slug":"cfcrudgen",
+    "version":"0.5.0",
+    "author":"Jordan Clark <jordanclark@gmail.com>",
+    "keywords":[
+        "crud",
+        "generate crud"
+    ],
+    "shortDescription":"Custom ColdFusion CRUD tool",
+    "type":"modules",
+    "location":"jordanclark/cfcrudgen#v0.5.0",
+    "repository":{
+        "URL":"https://github.com/jordanclark/cfcrudgen.git",
+        "type":"GIT"
+    },
+    "homepage":"https://github.com/jordanclark/cfcrudgen",
+    "bugs":"https://github.com/jordanclark/cfcrudgen/issues",
+    "license":[
+        {
+            "type":"Apache-2.0",
+            "URL":"https://github.com/jordanclark/cfcrudgen/blob/master/LICENSE"
+        }
+    ],
+    "private":false,
+    "ignore":[
+        "**/.*",
+        "/test/",
+        "/tests/"
+    ],
+    "scripts":{
+        "postVersion":"package set location='jordanclark/cfcrudgen#v`package version`'",
+        "onRelease":"publish",
+        "postPublish":"!git push --follow-tags"
+    }
+}
