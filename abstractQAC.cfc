@@ -29,7 +29,7 @@ component {
 
 	function _loadFunctions(required string names, required string prefix, string dir="#arguments.prefix#") {
 		var f = "";
-		//  automatically include the templates 
+		// automatically include the templates 
 		for ( f in arguments.names ) {
 			include "#arguments.dir##this.separator##arguments.prefix##f#.cfm";
 		}
@@ -40,7 +40,7 @@ component {
 		var f = "";
 		for ( f in variables ) {
 			if ( left( f, len( sRemovePrefix ) ) == sRemovePrefix ) {
-				//  remove regex from function names 
+				// remove regex from function names 
 				this[ replace( replace( lCase( f ), lCase( arguments.sRemovePrefix ), "", "all" ), "_", "", "all" ) ] = variables[ f ];
 			}
 		}
