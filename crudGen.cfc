@@ -98,31 +98,31 @@ Use of source and redistribution, with or without modification, are prohibited w
 </cffunction>
 
 
-<cfinclude template="crud-generator/write_definition.cfm">
-<cfinclude template="crud-generator/query_cfc.cfm">
-<cfinclude template="crud-generator/query_tag.cfm">
+<cfinclude template="write_definition.cfm">
+<cfinclude template="query_cfc.cfm">
+<cfinclude template="query_tag.cfm">
 
 
 <!-----------------------------------------------------------------------------------------------------------
 -- STORED PROCEDURE GENERATION METHODS
 ------------------------------------------------------------------------------------------------------------>
 
-<cfinclude template="crud-generator/crud_count.cfm">
-<cfinclude template="crud-generator/crud_delete.cfm">
-<cfinclude template="crud-generator/crud_delete_all.cfm">
-<cfinclude template="crud-generator/crud_exists.cfm">
-<cfinclude template="crud-generator/crud_insert.cfm">
-<cfinclude template="crud-generator/crud_remove.cfm">
-<cfinclude template="crud-generator/crud_save.cfm">
-<cfinclude template="crud-generator/crud_select.cfm">
-<cfinclude template="crud-generator/crud_paginate.cfm">
-<cfinclude template="crud-generator/crud_select_record.cfm">
-<cfinclude template="crud-generator/crud_select_all.cfm">
-<cfinclude template="crud-generator/crud_select_set.cfm">
-<cfinclude template="crud-generator/crud_update.cfm">
+<cfinclude template="crud_count.cfm">
+<cfinclude template="crud_delete.cfm">
+<cfinclude template="crud_delete_all.cfm">
+<cfinclude template="crud_exists.cfm">
+<cfinclude template="crud_insert.cfm">
+<cfinclude template="crud_remove.cfm">
+<cfinclude template="crud_save.cfm">
+<cfinclude template="crud_select.cfm">
+<cfinclude template="crud_paginate.cfm">
+<cfinclude template="crud_select_record.cfm">
+<cfinclude template="crud_select_all.cfm">
+<cfinclude template="crud_select_set.cfm">
+<cfinclude template="crud_update.cfm">
 
-<cfinclude template="crud-generator/crud_upsert.cfm">
-<cfinclude template="crud-generator/crud_merge.cfm">
+<cfinclude template="crud_upsert.cfm">
+<cfinclude template="crud_merge.cfm">
 
 
 <!-----------------------------------------------------------------------------------------------------------
