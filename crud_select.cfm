@@ -58,7 +58,6 @@
 		qMetadata= qMetadata
 	,	sColumnFilter= arguments.lSelectFields
 	,	bAliasFields= true
-	,	bSearchFields= false
 	,	bNewLine= arguments.bRowLimit
 	)>
 	<cfset this.append( "FROM#this.sTab##this.sTab##this.tablePrefix##this.getSqlSafeName( listLast( arguments.sTableName, '.' ) )#" )>

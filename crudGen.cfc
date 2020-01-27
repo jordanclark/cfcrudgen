@@ -124,7 +124,6 @@ Use of source and redistribution, with or without modification, are prohibited w
 <cfinclude template="crud_upsert.cfm">
 <cfinclude template="crud_merge.cfm">
 
-
 <!-----------------------------------------------------------------------------------------------------------
 -- METHODS TO APPEND DATA TO THE BUFFER
 ------------------------------------------------------------------------------------------------------------>
