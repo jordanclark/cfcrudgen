@@ -327,11 +327,10 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfset var bNull = false>
 	<cfset var sqlType = "">
 	
-	<cfset request.log( duplicate( q ) )>
 	<cfloop query="q">
 		<cfset bNull = ( q.nullable OR listFindNoCase( arguments.lNullable, q.fieldName ) )>
 		<!--- Loop over the individual crud params --->
-		<cfif arguments.bSelectFields>
+		<cfif arguments.bSelectFields AND bNull>
 			<cfset this.appendLine( "<cfif len( arguments.#q.fieldName# )>" )>
 		</cfif>
 		<cfset sqlType = uCase( q.sqlType )>
@@ -343,7 +342,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 		<cfset this.appendLine( ( arguments.bSelectFields ? this.sTab : "" )
 				& "DECLARE" & this.sTab & arguments.sPrefix & q.sColumnName & " " & sqlType & " = "
 				& this.appendQueryParam( q, q.sColumnName, bNull ) & ";" )>
-		<cfif arguments.bSelectFields>
+		<cfif arguments.bSelectFields AND bNull>
 			<cfset this.appendLine( "</cfif>" )>
 		</cfif>
 	</cfloop>
