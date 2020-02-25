@@ -84,7 +84,7 @@
 	<cfset this.appendParamFields(
 		qMetadata= qMetadata
 	,	sColumnFilter= arguments.lUpdateFields
-	,	bSelectFields= false
+	,	bSelectFields= true
 	,	bNewLine= false
 	,	sPrefix= arguments.sParamsPrefix
 	)>
