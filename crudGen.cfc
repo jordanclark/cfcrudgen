@@ -326,7 +326,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
 	<cfset var bNull = false>
 	<cfset var sqlType = "">
-	
+
 	<cfloop query="q">
 		<cfset bNull = ( q.nullable OR listFindNoCase( arguments.lNullable, q.fieldName ) )>
 		<!--- Loop over the individual crud params --->
@@ -336,6 +336,8 @@ Use of source and redistribution, with or without modification, are prohibited w
 		<cfset sqlType = uCase( q.sqlType )>
 		<cfif q.nColumnLength IS -1 AND listFindNoCase( "varchar,nvarchar", sqlType )>
 			<cfset sqlType &= "(MAX)">
+		<cfelseif listFindNoCase( "decimal", sqlType )>
+			<cfset sqlType &= "(#q.nColumnPrecision#,#q.nColumnScale#)">
 		<cfelseif q.nColumnLength GT 0>
 			<cfset sqlType &= "(#q.maxLength#)">
 		</cfif>
@@ -557,6 +559,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 		<cfset stParam.default = this.getCFDefaultValue( qMetadata.sDefaultValue )>
 		<cfset stParam.index = qMetadata.nColumnID>
 		<cfset stParam.scale = qMetadata.nColumnScale>
+		<cfset stParam.precision = qMetadata.nColumnPrecision>
 		<cfset stParam.maxLength = "">
 		<cfset stParam.nullable = yesNoFormat( qMetadata.isNullable )>
 		<cfset stParam.searchable = yesNoFormat( qMetadata.isSearchable )>
