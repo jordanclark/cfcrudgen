@@ -181,7 +181,7 @@
 		// create sample code comment 
 		if( structKeyExists( stDef.stArgs, "bSampleCode" ) && stDef.stArgs.bSampleCode ) {
 			this.appendLine( sLComment );
-			this.appendLine( '<cfset foo= BOOT.crud( "#stDef.stArgs.sTableName#.#right( stDef.stArgs.sUdfName, len( stDef.stArgs.sUdfName ) - 2 )#" )(' );
+			this.appendLine( '<cfset foo= cfc.crud.#stDef_stArgs.sTableName#_#right( stDef.stArgs.sUdfName, len( stDef.stArgs.sUdfName ) - 2 )#(' );
 			this.indent();
 			for( sItem in stDef.stArgs.lArgFields ) {
 				this.appendLine( ',#this.sTab##stDef.stFields[ sItem ].fieldName#= "' );
