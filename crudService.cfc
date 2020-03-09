@@ -4,7 +4,7 @@ component {
 		this.path= arguments.path;
 		this.flush();
 		this.settings= {
-		db= arguments.db
+			db= arguments.db
 		};
 		if ( len( arguments.preload ) ) {
 			cftimer( type="debug", label="Crud Preload: #replace( arguments.preload, ',', ', ', 'all' )#" ) {

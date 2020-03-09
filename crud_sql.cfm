@@ -32,9 +32,9 @@
 <cfif structKeyExists( arguments, "sQueryTagFileName" )>
 	<!--- <cfset this.generateQueryTag( arguments.sCrudName, arguments.sQueryTagFileName )> --->
 	<cfset this.writeDefinition( arguments.sCrudName, arguments.sQueryTagFileName, "CFC" )>
-<cfelseif structKeyExists( arguments, "sTagDir" )>
+<cfelseif structKeyExists( arguments, "sBaseCfmDir" )>
 	<!--- <cfset this.generateQueryTag( arguments.sCrudName, arguments.sQueryTagFileName )> --->
-	<cfset this.writeDefinition( arguments.sCrudName, "#arguments.sTagDir#/#arguments.sCrudName#/#arguments.sFileName#", "CFC" )>
+	<cfset this.writeDefinition( arguments.sCrudName, "#arguments.sBaseCfmDir#/#arguments.sCrudName#/#arguments.sFileName#", "CFC" )>
 </cfif>
 
 <cfreturn>

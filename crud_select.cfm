@@ -81,7 +81,7 @@
 <cfset this.addDefinition( arguments.sType, arguments, this.readBuffer( arguments.sCrudName ) )>
 
 <!--- Generate query tag at the same time --->
-<cfset this.writeDefinition( arguments.sCrudName, "#arguments.sTagDir#/#arguments.sCommonName#/#arguments.sFileName#", "CFC" )>
+<cfset this.writeDefinition( arguments.sCrudName, "#arguments.sBaseCfmDir#/#arguments.sCommonName#/#arguments.sFileName#", "CFC" )>
 
 <cfreturn>
 
