@@ -31,39 +31,38 @@ Use of source and redistribution, with or without modification, are prohibited w
 
 
 <cffunction name="init" output="false">
-	<cfset this.owner = "dbo">
-	<cfset this.db = "">
-	<cfset this.crudPrefix = "db_">
-	<cfset this.updateSuffix = "_Update">
-	<cfset this.selectSuffix = "_Select">
-	<cfset this.selectSetSuffix = "_SelectSet">
-	<cfset this.selectAllSuffix = "_SelectAll">
-	<cfset this.selectRecordSuffix = "_Record">
-	<cfset this.paginateSuffix = "_Paginate">
-	<cfset this.insertSuffix = "_Insert">
-	<cfset this.deleteSuffix = "_Delete">
-	<cfset this.deleteAllSuffix = "_Delete_All">
-	<cfset this.removeSuffix = "_Remove">
-	<cfset this.countSuffix = "_Count">
-	<cfset this.existsSuffix = "_Exists">
-	<cfset this.saveSuffix = "_Save">
-	<cfset this.upsertSuffix = "_Upsert">
-	<cfset this.mergeSuffix = "_Merge">
-	<cfset this.udfPrefix = "db">
-	<cfset this.tablePrefix = "">
+	<cfset this.owner= "dbo">
+	<cfset this.db= "">
+	<cfset this.crudPrefix= "db_">
+	<cfset this.updateSuffix= "_Update">
+	<cfset this.selectSuffix= "_Select">
+	<cfset this.selectSetSuffix= "_SelectSet">
+	<cfset this.selectAllSuffix= "_SelectAll">
+	<cfset this.selectRecordSuffix= "_Record">
+	<cfset this.paginateSuffix= "_Paginate">
+	<cfset this.insertSuffix= "_Insert">
+	<cfset this.deleteSuffix= "_Delete">
+	<cfset this.deleteAllSuffix= "_Delete_All">
+	<cfset this.removeSuffix= "_Remove">
+	<cfset this.countSuffix= "_Count">
+	<cfset this.existsSuffix= "_Exists">
+	<cfset this.saveSuffix= "_Save">
+	<cfset this.upsertSuffix= "_Upsert">
+	<cfset this.mergeSuffix= "_Merge">
+	<cfset this.udfPrefix= "db">
+	<cfset this.tablePrefix= "">
 	<cfif len( this.owner )>
-		<cfset this.tablePrefix = "#this.owner#." & this.tablePrefix>
+		<cfset this.tablePrefix= "#this.owner#." & this.tablePrefix>
 	</cfif>
 	<cfif len( this.db )>
-		<cfset this.tablePrefix = "#this.db#." & this.tablePrefix>
+		<cfset this.tablePrefix= "#this.db#." & this.tablePrefix>
 	</cfif>
 	
-	<cfset this.stCommonArgs = {}>
-	<cfset this.nIndent = 0>
-	<cfset this.bEncrypt = true> 
-	<cfset this.sTab = chr( 9 )> 
-	<cfset this.sNewLine = chr( 13 ) & chr( 10 )>
-	<cfset this.stDefaults = {}>
+	<cfset this.stCommonArgs= {}>
+	<cfset this.nIndent= 0>
+	<cfset this.sTab= chr( 9 )> 
+	<cfset this.sNewLine= chr( 13 ) & chr( 10 )>
+	<cfset this.stDefaults= {}>
 	
 	<cfset this.clearBuffers()>
 	
@@ -72,18 +71,18 @@ Use of source and redistribution, with or without modification, are prohibited w
 
 
 <cffunction name="setProperties" output="false">
-	<cfset var sKey = "">
-	<cfset var fHolder = "">
+	<cfset var sKey= "">
+	<cfset var fHolder= "">
 	
 	<cfloop item="sKey" collection="#arguments#">
 		<!--- if there is a setter method for this item, pass in the argument to set --->
 		<cfif structKeyExists( this, "set" & sKey ) AND isCustomFunction( this[ "set" & sKey ] )>
-			<cfset fHolder = this[ "set" & sKey ]>
+			<cfset fHolder= this[ "set" & sKey ]>
 			<cfset fHolder( arguments[ sKey ] )>
 		
 		<!--- otherwise just set the property value directly --->
 		<cfelse>
-			<cfset this[ sKey ] = arguments[ sKey ]>
+			<cfset this[ sKey ]= arguments[ sKey ]>
 		</cfif>
 	</cfloop>
 	
@@ -141,10 +140,10 @@ Use of source and redistribution, with or without modification, are prohibited w
 	
 	<!--- add a line break --->
 	<cfif arguments.bNewLine>
-		<cfset arguments.sInput = this.sNewLine & repeatString( this.sTab, this.nIndent ) & arguments.sInput>
+		<cfset arguments.sInput= this.sNewLine & repeatString( this.sTab, this.nIndent ) & arguments.sInput>
 	</cfif>
 	
-	<cfset this.stBuffer[ this.sCurrentBuffer ] = this.stBuffer[ this.sCurrentBuffer ] & arguments.sInput>
+	<cfset this.stBuffer[ this.sCurrentBuffer ]= this.stBuffer[ this.sCurrentBuffer ] & arguments.sInput>
 	<cfreturn>
 </cffunction>
 
@@ -246,13 +245,13 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="bOptionalFields" type="boolean" default="false">
 	<cfargument name="bNewLine" type="boolean" default="true">
 	
-	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
-	<cfset var sFieldAdd = "">
+	<cfset var q= this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
+	<cfset var sFieldAdd= "">
 	
 	<cfif arguments.bOptionalFields>		
-		<cfset sFieldAdd = "#this.sTab#,#this.sTab#">
+		<cfset sFieldAdd= "#this.sTab#,#this.sTab#">
 	<cfelseif bNewLine>
-		<cfset sFieldAdd = "#this.sTab##this.sTab#">
+		<cfset sFieldAdd= "#this.sTab##this.sTab#">
 	</cfif>
 	
 	<cfloop query="q">
@@ -264,8 +263,8 @@ Use of source and redistribution, with or without modification, are prohibited w
 			<cfelse>
 				<cfset this.append( "#sFieldAdd##this.sTab##q.sColumnNameSafe#", arguments.bNewLine )>
 			</cfif>
-			<cfset sFieldAdd = "#this.sTab#,#this.sTab#">
-			<cfset arguments.bNewLine = true>
+			<cfset sFieldAdd= "#this.sTab#,#this.sTab#">
+			<cfset arguments.bNewLine= true>
 		<cfif arguments.bOptionalFields AND q.nullable>
 			<cfset this.appendLine( '</cfif>' )>
 		</cfif>
@@ -285,11 +284,11 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sPrefix" type="string" default="@">
 	<cfargument name="bNullCheck" type="boolean" default="false">
 	
-	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
-	<cfset var sFieldAdd = "#this.sTab##this.sTab##this.sTab#">
+	<cfset var q= this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
+	<cfset var sFieldAdd= "#this.sTab##this.sTab##this.sTab#">
 	
 	<cfif arguments.bOptionalFields>		
-		<cfset sFieldAdd = "#this.sTab#,#this.sTab##this.sTab#">
+		<cfset sFieldAdd= "#this.sTab#,#this.sTab##this.sTab#">
 	</cfif>
 	
 	<cfloop query="q">
@@ -309,7 +308,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 				<cfset this.appendLine( sFieldAdd & this.appendQueryParam( q, q.sColumnName, arguments.bNullCheck ) )>
 			</cfif>
 		</cfif>
-		<cfset sFieldAdd = "#this.sTab#,#this.sTab##this.sTab#">
+		<cfset sFieldAdd= "#this.sTab#,#this.sTab##this.sTab#">
 	</cfloop>
 	
 	<cfreturn>
@@ -323,17 +322,17 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sPrefix" type="string" default="@">
 	<cfargument name="lNullable" type="string" default="">
 	
-	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
-	<cfset var bNull = false>
-	<cfset var sqlType = "">
+	<cfset var q= this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
+	<cfset var bNull= false>
+	<cfset var sqlType= "">
 
 	<cfloop query="q">
-		<cfset bNull = ( q.nullable OR listFindNoCase( arguments.lNullable, q.fieldName ) )>
+		<cfset bNull= ( q.nullable OR listFindNoCase( arguments.lNullable, q.fieldName ) )>
 		<!--- Loop over the individual crud params --->
 		<cfif arguments.bSelectFields AND bNull>
 			<cfset this.appendLine( "<cfif len( arguments.#q.fieldName# )>" )>
 		</cfif>
-		<cfset sqlType = uCase( q.sqlType )>
+		<cfset sqlType= uCase( q.sqlType )>
 		<cfif q.nColumnLength IS -1 AND listFindNoCase( "varchar,nvarchar", sqlType )>
 			<cfset sqlType &= "(MAX)">
 		<cfelseif listFindNoCase( "decimal", sqlType )>
@@ -342,7 +341,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 			<cfset sqlType &= "(#q.maxLength#)">
 		</cfif>
 		<cfset this.appendLine( ( arguments.bSelectFields ? this.sTab : "" )
-				& "DECLARE" & this.sTab & arguments.sPrefix & q.sColumnName & " " & sqlType & " = "
+				& "DECLARE" & this.sTab & arguments.sPrefix & q.sColumnName & " " & sqlType & "= "
 				& this.appendQueryParam( q, q.sColumnName, bNull ) & ";" )>
 		<cfif arguments.bSelectFields AND bNull>
 			<cfset this.appendLine( "</cfif>" )>
@@ -364,21 +363,21 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="bOptionalFields" type="boolean" default="false">
 	<cfargument name="bCommaAppend" type="boolean" default="false">
 	
-	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
-	<cfset var sFieldAdd = "">
-	<cfset var bNull = false>
+	<cfset var q= this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
+	<cfset var sFieldAdd= "">
+	<cfset var bNull= false>
 	
 	<cfif arguments.bRowUpdate>
 		<cfset this.append( "#this.sTab#@rows = 0", arguments.bNewLine )>
-		<cfset sFieldAdd = "#this.sTab#,#this.sTab##this.sTab#">
+		<cfset sFieldAdd= "#this.sTab#,#this.sTab##this.sTab#">
 	<cfelseif arguments.bOptionalFields>
-		<cfset sFieldAdd = "#this.sTab#,#this.sTab##this.sTab#">
+		<cfset sFieldAdd= "#this.sTab#,#this.sTab##this.sTab#">
 	<cfelse>
-		<cfset sFieldAdd = "#this.sTab##this.sTab##this.sTab#">
+		<cfset sFieldAdd= "#this.sTab##this.sTab##this.sTab#">
 	</cfif>
 
 	<cfloop query="q">
-		<cfset bNull = q.nullable>
+		<cfset bNull= q.nullable>
 		<!--- Loop over the individual crud params --->
 		<cfif arguments.bSelectFields>
 			<cfset this.appendLine( "<cfif len( arguments.#q.fieldName# )>" )>
@@ -391,7 +390,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 		<cfif arguments.bSelectFields>
 			<cfset this.appendLine( "</cfif>" )>
 		</cfif>
-		<cfset sFieldAdd = "#this.sTab#,#this.sTab##this.sTab#">
+		<cfset sFieldAdd= "#this.sTab#,#this.sTab##this.sTab#">
 	</cfloop>
 	
 	<cfreturn>
@@ -407,15 +406,15 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="bUseParams" type="boolean" default="false">
 	<cfargument name="sPrefix" type="string" default="@">
 	
-	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
-	<cfset var sWhereAdd = "">
-	<cfset var bNull = false>
+	<cfset var q= this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
+	<cfset var sWhereAdd= "">
+	<cfset var bNull= false>
 	
 	<cfif arguments.bSearchFields>		
 		<cfset this.appendLine( "WHERE#this.sTab##this.sTab#(0=0)" )>
-		<cfset sWhereAdd = "#this.sTab#AND#this.sTab#">
+		<cfset sWhereAdd= "#this.sTab#AND#this.sTab#">
 	<cfelse>
-		<cfset sWhereAdd = "WHERE#this.sTab#">
+		<cfset sWhereAdd= "WHERE#this.sTab#">
 	</cfif>
 	
 	<cfloop query="q">
@@ -440,9 +439,9 @@ Use of source and redistribution, with or without modification, are prohibited w
 			<cfset this.appendLine( '</cfif>' )>
 		</cfif>
 		<cfif arguments.bSearchFields>	
-			<cfset sWhereAdd = "#this.sTab#AND#this.sTab#">
+			<cfset sWhereAdd= "#this.sTab#AND#this.sTab#">
 		<cfelse>
-			<cfset sWhereAdd = "#this.sTab#AND#this.sTab##this.sTab#">
+			<cfset sWhereAdd= "#this.sTab#AND#this.sTab##this.sTab#">
 		</cfif>
 	</cfloop>
 	
@@ -456,13 +455,13 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sLeftPrefix" type="string" default="">
 	<cfargument name="sRightPrefix" type="string" default="">
 	
-	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
-	<cfset var sAdd = "ON" & this.sTab>
+	<cfset var q= this.getColumnMetadata( arguments.qMetadata, arguments.sColumnFilter )>
+	<cfset var sAdd= "ON" & this.sTab>
 	
 	<cfloop query="q">
 		<cfset this.appendLine( sAdd & this.sTab )>
 		<cfset this.appendOn( "(#arguments.sLeftPrefix##q.sColumnNameSafe# = #arguments.sRightPrefix##q.sColumnName#)" )>
-		<cfset sAdd = this.sTab & "AND" & this.sTab>
+		<cfset sAdd= this.sTab & "AND" & this.sTab>
 	</cfloop>
 	
 	<cfreturn>
@@ -475,11 +474,11 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sField" type="string" required="true">
 	<cfargument name="bNull" type="boolean" default="false">
 	
-	<cfset var q = this.getColumnMetadata( arguments.qMetadata, arguments.sField )>
-	<cfset var out = "">
+	<cfset var q= this.getColumnMetadata( arguments.qMetadata, arguments.sField )>
+	<cfset var out= "">
 	
 	<cfloop query="q">
-		<cfset out = '<cfqueryparam value="##arguments.#q.fieldName###" cfSqlType="#q.cfSqlType#"'>
+		<cfset out= '<cfqueryparam value="##arguments.#q.fieldName###" cfSqlType="#q.cfSqlType#"'>
 		
 		<cfif q.nColumnLength GT 0 AND ( NOT arguments.bNull OR q.maxLength GTE 4 )>
 			<cfset out &= ' maxLength="#q.maxLength#"'>
@@ -511,8 +510,8 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="stArgs" type="struct" required="true">
 	<cfargument name="sSQL" type="string" required="true">
 	
-	<cfset var stDef = {}>
-	<cfset var stParam = "">
+	<cfset var stDef= {}>
+	<cfset var stParam= "">
 	
 	<cfquery name="qPK" dbType="query">
 		SELECT		sColumnName
@@ -520,23 +519,23 @@ Use of source and redistribution, with or without modification, are prohibited w
 		WHERE		(bPrimaryKeyColumn = 1)
 	</cfquery>
 	
-	<cfset stDef.sType = arguments.sType>
-	<cfset stDef.stArgs = arguments.stArgs>
-	<cfset stDef.stFields = this.getStructMetadata( stArgs.qFields )>
-	<cfset stDef.sSQL = arguments.sSQL>
-	<cfset stDef.created = now()>
+	<cfset stDef.sType= arguments.sType>
+	<cfset stDef.stArgs= arguments.stArgs>
+	<cfset stDef.stFields= this.getStructMetadata( stArgs.qFields )>
+	<cfset stDef.sSQL= arguments.sSQL>
+	<cfset stDef.created= now()>
 	
 	<cfif NOT structKeyExists( stDef.stArgs, "sDSN" )>
-		<cfset stDef.stArgs.sDSN = this.dsn>
+		<cfset stDef.stArgs.sDSN= this.dsn>
 	</cfif>
 	<cfif NOT structKeyExists( stDef.stArgs, "sQueryName" )>
-		<cfset stDef.stArgs.sQueryName = "q" & replace( arguments.stArgs.sTableName, "_", "", "all" )>
+		<cfset stDef.stArgs.sQueryName= "q" & replace( arguments.stArgs.sTableName, "_", "", "all" )>
 	</cfif>
 	<cfif NOT structKeyExists( stDef.stArgs, "lPrimaryKeys" )>
-		<cfset stDef.stArgs.lPrimaryKeys = valueList( qPK.sColumnName )>
+		<cfset stDef.stArgs.lPrimaryKeys= valueList( qPK.sColumnName )>
 	</cfif>
 	
-	<cfset this.stDefinitions[ arguments.stArgs.sCrudName ] = stDef>
+	<cfset this.stDefinitions[ arguments.stArgs.sCrudName ]= stDef>
 	
 	<cfreturn>
 </cffunction>
@@ -545,44 +544,44 @@ Use of source and redistribution, with or without modification, are prohibited w
 <cffunction name="getStructMetadata" output="false" returnType="struct">
 	<cfargument name="qMetadata" type="query" required="true">
 	
-	<cfset var stMetadata = {}>
-	<cfset var stParam = "">
+	<cfset var stMetadata= {}>
+	<cfset var stParam= "">
 	<cfloop query="qMetadata">
-		<cfset stParam = {}>
-		<!--- <cfset stParam.type = "in"> --->
-		<!--- <cfset stParam.varName = "@" & qMetadata.sColumnName> --->
-		<cfset stParam.fieldName = this.camelCase( qMetadata.fieldName )>
-		<cfset stParam.sqlType = qMetadata.sTypeName>
-		<cfset stParam.cfType = this.getCFType( qMetadata.sTypeName )>
-		<cfset stParam.cfSQLType = lCase( this.getCFSQLType( qMetadata.sTypeName ) )>
+		<cfset stParam= {}>
+		<!--- <cfset stParam.type= "in"> --->
+		<!--- <cfset stParam.varName= "@" & qMetadata.sColumnName> --->
+		<cfset stParam.fieldName= this.camelCase( qMetadata.fieldName )>
+		<cfset stParam.sqlType= qMetadata.sTypeName>
+		<cfset stParam.cfType= this.getCFType( qMetadata.sTypeName )>
+		<cfset stParam.cfSQLType= lCase( this.getCFSQLType( qMetadata.sTypeName ) )>
 		<!--- Only some default values will work on the CF side --->
-		<cfset stParam.default = this.getCFDefaultValue( qMetadata.sDefaultValue )>
-		<cfset stParam.index = qMetadata.nColumnID>
-		<cfset stParam.scale = qMetadata.nColumnScale>
-		<cfset stParam.precision = qMetadata.nColumnPrecision>
-		<cfset stParam.maxLength = "">
-		<cfset stParam.nullable = yesNoFormat( qMetadata.isNullable )>
-		<cfset stParam.searchable = yesNoFormat( qMetadata.isSearchable )>
-		<cfset stParam.attribs = "">
+		<cfset stParam.default= this.getCFDefaultValue( qMetadata.sDefaultValue )>
+		<cfset stParam.index= qMetadata.nColumnID>
+		<cfset stParam.scale= qMetadata.nColumnScale>
+		<cfset stParam.precision= qMetadata.nColumnPrecision>
+		<cfset stParam.maxLength= "">
+		<cfset stParam.nullable= yesNoFormat( qMetadata.isNullable )>
+		<cfset stParam.searchable= yesNoFormat( qMetadata.isSearchable )>
+		<cfset stParam.attribs= "">
 		<cfif len( qMetadata.sDefaultValue )>
-			<cfset stParam.nullable = true>
+			<cfset stParam.nullable= true>
 		</cfif>
 		<!--- <cfif qMetadata.isNullable>
-			<cfset stParam.attribs = listAppend( stParam.attribs, "nullable" )>
+			<cfset stParam.attribs= listAppend( stParam.attribs, "nullable" )>
 		</cfif> --->
 		<cfif qMetadata.isComputed IS 1>
-			<cfset stParam.attribs = listAppend( stParam.attribs, "computed" )>
+			<cfset stParam.attribs= listAppend( stParam.attribs, "computed" )>
 		</cfif>
 		<cfif qMetadata.isIdentity IS 1>
-			<cfset stParam.attribs = listAppend( stParam.attribs, "identity" )>
+			<cfset stParam.attribs= listAppend( stParam.attribs, "identity" )>
 		</cfif>
 		<cfif qMetadata.bPrimaryKeyColumn IS 1>
-			<cfset stParam.attribs = listAppend( stParam.attribs, "primarykey" )>
+			<cfset stParam.attribs= listAppend( stParam.attribs, "primarykey" )>
 		</cfif>
 		<cfif listFindNoCase( "char,nchar,varchar,nvarchar", qMetadata.sTypeName )>
-			<cfset stParam.maxLength = qMetadata.nColumnPrecision>
+			<cfset stParam.maxLength= qMetadata.nColumnPrecision>
 		</cfif>
-		<cfset stMetadata[ qMetadata.sColumnName ] = stParam>
+		<cfset stMetadata[ qMetadata.sColumnName ]= stParam>
 	</cfloop>
 
 	<cfreturn stMetadata>
@@ -597,33 +596,33 @@ Use of source and redistribution, with or without modification, are prohibited w
 <cffunction name="addColumnMetadataRow" access="package" output="false" returnType="query">
 	<cfargument name="qMetadata" type="query" default="#this.getBlankColumnMetadata()#">
 	
-	<cfset var key = "">
+	<cfset var key= "">
 	
 	<cfset queryAddRow( arguments.qMetadata, 1 )>
 	
 	<cfif structKeyExists( arguments, "sTypeName" )>
 		<cfswitch expression="#arguments.sTypeName#">
 			<cfcase value="int">
-				<cfset arguments.nTypeGroup = 0>
-				<cfset arguments.nColumnLength = 4>
-				<cfset arguments.nColumnPrecision = 10>
-				<cfset arguments.nColumnScale = 0>
+				<cfset arguments.nTypeGroup= 0>
+				<cfset arguments.nColumnLength= 4>
+				<cfset arguments.nColumnPrecision= 10>
+				<cfset arguments.nColumnScale= 0>
 			</cfcase>
 		</cfswitch>
 		<cfif NOT structKeyExists( arguments, "isSearchable" )>
-			<cfset arguments.isSearchable = this.isSearchableType( arguments.sTypeName )>
+			<cfset arguments.isSearchable= this.isSearchableType( arguments.sTypeName )>
 		</cfif>
 	</cfif>
 	
 	<cfloop index="key" list="#arguments.qMetadata.columnList#">
 		<cfif structKeyExists( arguments, key )>
-			<cfset arguments.qMetadata.key[ arguments.qMetadata.recordCount ] = arguments[ key ]>
+			<cfset arguments.qMetadata.key[ arguments.qMetadata.recordCount ]= arguments[ key ]>
 		<cfelse>
-			<cfset arguments.qMetadata.key[ arguments.qMetadata.recordCount ] = "">
+			<cfset arguments.qMetadata.key[ arguments.qMetadata.recordCount ]= "">
 		</cfif>
 	</cfloop>
 	
-	<cfset arguments.qMetadata.nColumnID[ arguments.qMetadata.recordCount ] = arguments.qMetadata.recordCount>
+	<cfset arguments.qMetadata.nColumnID[ arguments.qMetadata.recordCount ]= arguments.qMetadata.recordCount>
 	
 	<cfreturn arguments.qMetadata>
 </cffunction>
@@ -670,30 +669,30 @@ Use of source and redistribution, with or without modification, are prohibited w
 	</cfquery>
 	
 	<cfloop query="qMetadata">
-		<cfset qMetadata.sColumnNameSafe[ currentRow ] = this.getSqlSafeName( qMetadata.sColumnName )>
-		<cfset qMetadata.fieldName[ currentRow ] = this.camelCase( qMetadata.fieldName )>
-		<cfset qMetadata.cfType[ currentRow ] = this.getCFType( qMetadata.cfType )>
-		<cfset qMetadata.cfSQLType[ currentRow ] = lCase( this.getCFSQLType( qMetadata.cfSQLType ) )>
-		<cfset qMetadata.nullable[ currentRow ] = yesNoFormat( qMetadata.isNullable )>
-		<cfset qMetadata.searchable[ currentRow ] = yesNoFormat( qMetadata.isSearchable )>
+		<cfset qMetadata.sColumnNameSafe[ currentRow ]= this.getSqlSafeName( qMetadata.sColumnName )>
+		<cfset qMetadata.fieldName[ currentRow ]= this.camelCase( qMetadata.fieldName )>
+		<cfset qMetadata.cfType[ currentRow ]= this.getCFType( qMetadata.cfType )>
+		<cfset qMetadata.cfSQLType[ currentRow ]= lCase( this.getCFSQLType( qMetadata.cfSQLType ) )>
+		<cfset qMetadata.nullable[ currentRow ]= yesNoFormat( qMetadata.isNullable )>
+		<cfset qMetadata.searchable[ currentRow ]= yesNoFormat( qMetadata.isSearchable )>
 		<cfif len( qMetadata.sDefaultValue )>
-			<cfset qMetadata.nullable[ currentRow ] = true>
-			<cfset qMetadata.isNullable[ currentRow ] = true>
+			<cfset qMetadata.nullable[ currentRow ]= true>
+			<cfset qMetadata.isNullable[ currentRow ]= true>
 		</cfif>
 		<!--- <cfif qMetadata.isNullable>
-			<cfset qMetadata.attribs[ currentRow ] = listAppend( qMetadata.attribs, "nullable" )>
+			<cfset qMetadata.attribs[ currentRow ]= listAppend( qMetadata.attribs, "nullable" )>
 		</cfif> --->
 		<cfif qMetadata.isComputed IS 1>
-			<cfset qMetadata.attribs[ currentRow ] = listAppend( qMetadata.attribs, "computed" )>
+			<cfset qMetadata.attribs[ currentRow ]= listAppend( qMetadata.attribs, "computed" )>
 		</cfif>
 		<cfif qMetadata.isIdentity IS 1>
-			<cfset qMetadata.attribs[ currentRow ] = listAppend( qMetadata.attribs, "identity" )>
+			<cfset qMetadata.attribs[ currentRow ]= listAppend( qMetadata.attribs, "identity" )>
 		</cfif>
 		<cfif qMetadata.bPrimaryKeyColumn IS 1>
-			<cfset qMetadata.attribs[ currentRow ] = listAppend( qMetadata.attribs, "primarykey" )>
+			<cfset qMetadata.attribs[ currentRow ]= listAppend( qMetadata.attribs, "primarykey" )>
 		</cfif>
 		<cfif listFindNoCase( "char,nchar,varchar,nvarchar", qMetadata.sTypeName )>
-			<cfset qMetadata.maxLength[ currentRow ] = qMetadata.nColumnLength>
+			<cfset qMetadata.maxLength[ currentRow ]= qMetadata.nColumnLength>
 		</cfif>
 	</cfloop>
 	
@@ -724,33 +723,33 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="qMetadata" type="query" required="true">
 	<cfargument name="sFilter" type="string" default="*">
 	
-	<cfset var bKeyFilter = false>
-	<cfset var bNullFilter = "">
-	<cfset var bLikeableFilter = false>
-	<cfset var bComputedFilter = false>
-	<cfset var bCompareFilter = false>
-	<cfset var sField = "">
-	<cfset var sIncludeFields = "">
-	<cfset var sExcludeFields = "">
+	<cfset var bKeyFilter= false>
+	<cfset var bNullFilter= "">
+	<cfset var bLikeableFilter= false>
+	<cfset var bComputedFilter= false>
+	<cfset var bCompareFilter= false>
+	<cfset var sField= "">
+	<cfset var sIncludeFields= "">
+	<cfset var sExcludeFields= "">
 	
 	<cfloop index="sField" list="#arguments.sFilter#" delimiters=",">
 		<cfif sField IS "!PK">
-			<cfset bKeyFilter = true>
+			<cfset bKeyFilter= true>
 		<cfelseif sField IS "!MUTABLE" OR sField IS "+">
-			<cfset bComputedFilter = true>
+			<cfset bComputedFilter= true>
 		<cfelseif sField IS "!COMPARABLE">
-			<cfset bCompareFilter = true>
+			<cfset bCompareFilter= true>
 		<cfelseif sField IS "!NULL">
-			<cfset bNullFilter = 1>
+			<cfset bNullFilter= 1>
 		<cfelseif sField IS "!NOTNULL">
-			<cfset bNullFilter = 0>
+			<cfset bNullFilter= 0>
 		<cfelseif sField IS "!LIKEABLE">
-			<cfset bLikeableFilter = true>
+			<cfset bLikeableFilter= true>
 		<cfelseif NOT sField IS "*">
 			<cfif left( sField, 1 ) IS "-">
-				<cfset sExcludeFields = listAppend( sExcludeFields, right( sField, len( sField ) - 1 ), "," )>
+				<cfset sExcludeFields= listAppend( sExcludeFields, right( sField, len( sField ) - 1 ), "," )>
 			<cfelse>
-				<cfset sIncludeFields = listAppend( sIncludeFields, sField, "," )>
+				<cfset sIncludeFields= listAppend( sIncludeFields, sField, "," )>
 			</cfif>
 		</cfif>
 	</cfloop>
@@ -791,39 +790,39 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="qMetadata" type="query" required="true">
 	<cfargument name="sFilter" type="string" default="*">
 	
-	<cfset var bPKFilter = false>
-	<cfset var bNullFilter = "">
-	<cfset var bLikeableFilter = false>
-	<cfset var bComputedFilter = false>
-	<cfset var bCompareFilter = false>
-	<cfset var sField = "">
-	<cfset var sIncludeFields = "">
-	<cfset var sExcludeFields = "">
+	<cfset var bPKFilter= false>
+	<cfset var bNullFilter= "">
+	<cfset var bLikeableFilter= false>
+	<cfset var bComputedFilter= false>
+	<cfset var bCompareFilter= false>
+	<cfset var sField= "">
+	<cfset var sIncludeFields= "">
+	<cfset var sExcludeFields= "">
 	
 	<!--- don't select any fields --->
 	<cfif NOT len( sFilter ) OR sFilter IS "-">
-		<cfset arguments.sFilter = "-">
+		<cfset arguments.sFilter= "-">
 	<cfelse>
 		<cfloop index="sField" list="#arguments.sFilter#" delimiters=",">
 			<cfif sField IS "!PK">
 				<!--- only select primary key columns --->
-				<cfset bPKFilter = true>
+				<cfset bPKFilter= true>
 			<cfelseif sField IS "!MUTABLE" OR sField IS "+">
 				<!--- exclude computed and identity fields --->
-				<cfset bComputedFilter = true>
+				<cfset bComputedFilter= true>
 			<cfelseif sField IS "!COMPARABLE">
-				<cfset bCompareFilter = true>
+				<cfset bCompareFilter= true>
 			<cfelseif sField IS "!NULL">
-				<cfset bNullFilter = 1>
+				<cfset bNullFilter= 1>
 			<cfelseif sField IS "!NOTNULL">
-				<cfset bNullFilter = 0>
+				<cfset bNullFilter= 0>
 			<cfelseif sField IS "!LIKEABLE">
-				<cfset bLikeableFilter = true>
+				<cfset bLikeableFilter= true>
 			<cfelseif NOT sField IS "*">
 				<cfif left( sField, 1 ) IS "-">
-					<cfset sExcludeFields = listAppend( sExcludeFields, right( sField, len( sField ) - 1 ), "," )>
+					<cfset sExcludeFields= listAppend( sExcludeFields, right( sField, len( sField ) - 1 ), "," )>
 				<cfelse>
-					<cfset sIncludeFields = listAppend( sIncludeFields, sField, "," )>
+					<cfset sIncludeFields= listAppend( sIncludeFields, sField, "," )>
 				</cfif>
 			</cfif>
 		</cfloop>
@@ -868,27 +867,27 @@ Use of source and redistribution, with or without modification, are prohibited w
 
 <cffunction name="indent" access="package" output="false" hint="Increase the indentation by 1">
 	<cfargument name="indent" type="numeric" default="1">
-	<cfset this.nIndent = this.nIndent + arguments.indent>
+	<cfset this.nIndent= this.nIndent + arguments.indent>
 	<cfreturn>
 </cffunction>
 
 
 <cffunction name="unindent" access="package" output="false" hint="Decrease the indentation by 1">
 	<cfargument name="indent" type="numeric" default="1">
-	<cfset this.nIndent = max( 0, this.nIndent - arguments.indent )>
+	<cfset this.nIndent= max( 0, this.nIndent - arguments.indent )>
 	<cfreturn>
 </cffunction>
 
 
 <cffunction name="addIndent" access="package" output="false" hint="Change the level of indentation">
 	<cfargument name="indent" type="numeric" required="true">
-	<cfset this.nIndent = max( 0, this.nIndent + arguments.indent )>
+	<cfset this.nIndent= max( 0, this.nIndent + arguments.indent )>
 	<cfreturn>
 </cffunction>
 
 
 <cffunction name="resetIndent" access="package" output="false" hint="Reset the level of indentation to zero">
-	<cfset this.nIndent = 0>
+	<cfset this.nIndent= 0>
 	<cfreturn>
 </cffunction>
 
@@ -896,10 +895,10 @@ Use of source and redistribution, with or without modification, are prohibited w
 <cffunction name="clearBuffers" output="false">
 	
 	<!--- clear the buffers --->
-	<cfset this.lBufferOrder = "">
-	<cfset this.stBuffer = {}>
-	<cfset this.stBufferType = {}>
-	<cfset this.stDefinitions = {}>
+	<cfset this.lBufferOrder= "">
+	<cfset this.stBuffer= {}>
+	<cfset this.stBufferType= {}>
+	<cfset this.stDefinitions= {}>
 	
 	<!--- add the standard 'header' buffers --->
 	<cfset this.appendHeader()>
@@ -930,16 +929,16 @@ Use of source and redistribution, with or without modification, are prohibited w
 	</cfif>
 	
 	<!--- add an empty buffer --->
-	<cfset this.stBuffer[ arguments.sBufferKey ] = "">
+	<cfset this.stBuffer[ arguments.sBufferKey ]= "">
 	
 	<!--- save the buffer type --->
-	<cfset this.stBufferType[ arguments.sBufferKey ] = arguments.sBufferType>
+	<cfset this.stBufferType[ arguments.sBufferKey ]= arguments.sBufferType>
 	
 	<!--- save the buffer order --->
-	<cfset this.lBufferOrder = listAppend( this.lBufferOrder, arguments.sBufferKey )>
+	<cfset this.lBufferOrder= listAppend( this.lBufferOrder, arguments.sBufferKey )>
 	
 	<!--- mark the buffer as 'current' --->
-	<cfset this.sCurrentBuffer = arguments.sBufferKey>
+	<cfset this.sCurrentBuffer= arguments.sBufferKey>
 	
 	<cfreturn>
 </cffunction>
@@ -949,19 +948,19 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sBufferKey" type="string" default="*">
 	<cfargument name="sBufferType" type="string" default="*"><!--- *, sql or cfm --->
 	
-	<cfset var sOutput = "">
-	<cfset var sItem = "">
+	<cfset var sOutput= "">
+	<cfset var sItem= "">
 	
 	<cfif arguments.sBufferKey IS "*">
-		<cfset arguments.sBufferKey = this.lBufferOrder>
+		<cfset arguments.sBufferKey= this.lBufferOrder>
 	<cfelse>
-		<cfset arguments.sBufferType = "*">
+		<cfset arguments.sBufferType= "*">
 	</cfif>
 	
 	<!--- read only the buffer specified "*", "sql" or "cfm" --->
 	<cfloop index="sItem" list="#arguments.sBufferKey#">
 		<cfif arguments.sBufferType IS "*" OR this.stBufferType[ sItem ] IS arguments.sBufferType>
-			<cfset sOutput = sOutput & this.stBuffer[ sItem ] & this.sNewLine>
+			<cfset sOutput= sOutput & this.stBuffer[ sItem ] & this.sNewLine>
 		</cfif>
 	</cfloop>
 	
@@ -973,12 +972,12 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sFileName" type="string" required="true">
 	<cfargument name="sContent" type="string" required="true">
 	
-	<cfset var bWrite = true>
+	<cfset var bWrite= true>
 	
 	<cfif fileExists( sFileName )>
-		<cfset local.sOldContent = fileRead( local.sFileName )>
+		<cfset local.sOldContent= fileRead( local.sFileName )>
 		<cfif compare( arguments.sContent, local.sOldContent ) IS 0>
-			<cfset bWrite = false>
+			<cfset bWrite= false>
 		</cfif>
 	</cfif>
 	
@@ -995,7 +994,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sBufferKey" type="string" default="*">
 	<cfargument name="sBufferType" type="string" default="cfm"><!--- *, sql or cfm --->
 	<cfargument name="bGroup" type="boolean" default="false">
-	<cfset var sItem = "">
+	<cfset var sItem= "">
 	
 	<cfset this.writeIfDifferent( arguments.sFileName, this.readBuffer( arguments.sBufferKey, arguments.sBufferType ) )>
 	
@@ -1024,7 +1023,7 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfreturn "">
 	
 	<cfif left( arguments.sValue, 1 ) IS "'" AND right( arguments.sValue, 1 ) IS "'">
-		<cfset arguments.sValue = mid( arguments.sValue, 2, len( arguments.sValue ) - 2 )>
+		<cfset arguments.sValue= mid( arguments.sValue, 2, len( arguments.sValue ) - 2 )>
 	</cfif>
 	
 	<cfif arguments.sValue IS "GETDATE()">
@@ -1181,10 +1180,10 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="sInput" type="string" required="true">
 	<cfargument name="sDelim" type="string" default="_">
 	
-	<cfset var sOutput = "">
-	<cfset var word = "">
-	<cfset var i = 1>
-	<cfset var strlen = listLen( sInput, sDelim )>
+	<cfset var sOutput= "">
+	<cfset var word= "">
+	<cfset var i= 1>
+	<cfset var strlen= listLen( sInput, sDelim )>
 	
 	<cfif NOT len( sInput )>
 		<cfreturn "">
@@ -1192,19 +1191,19 @@ Use of source and redistribution, with or without modification, are prohibited w
 	
 	<cfscript>
 		for( i=1; i LTE strlen; i=i+1 ) {
-			word = listGetAt( sInput, i, sDelim );
+			word= listGetAt( sInput, i, sDelim );
 			sOutput &= uCase( left( word, 1 ) );
 			if( len( word ) GT 1 ) {
 				sOutput &= right( word, len( word ) - 1 );
 			}
 			if( i LT strlen ) {
-				sOutput = sOutput;
+				sOutput= sOutput;
 			}
 		}
 	</cfscript>
 	
 	<!--- camel-case the first letter --->
-	<cfset sOutput = lCase( left( sOutput, 1 ) ) & replaceList( right( sOutput, len( sOutput ) - 1 ), "Id,Pk,Fk,Ukey,Rkey", "ID,PK,FK,UKey,RKey" )>
+	<cfset sOutput= lCase( left( sOutput, 1 ) ) & replaceList( right( sOutput, len( sOutput ) - 1 ), "Id,Pk,Fk,Ukey,Rkey", "ID,PK,FK,UKey,RKey" )>
 	
 	<cfreturn sOutput>
 </cffunction>
@@ -1226,17 +1225,17 @@ Use of source and redistribution, with or without modification, are prohibited w
 	<cfargument name="silent" type="boolean" default="true">
 	<cfargument name="separator" type="string" default="/">
 	
-	<cfset var newline = chr(13)&chr(10)>
-	<cfset var tab = chr(9)>
-	<cfset var content = "">
-	<cfset var functionContent = "">
-	<cfset var functionName = "">
-	<cfset var originalName = "">
-	<cfset var functions = structNew()>
-	<cfset var objNamePattern = createObject( "java", "java.util.regex.Pattern" ).Compile( '(?i)(?<=<cffunction name=")[^"]+(?=")' )>
-	<cfset var objNameMatcher = 0>
+	<cfset var newline= chr(13)&chr(10)>
+	<cfset var tab= chr(9)>
+	<cfset var content= "">
+	<cfset var functionContent= "">
+	<cfset var functionName= "">
+	<cfset var originalName= "">
+	<cfset var functions= structNew()>
+	<cfset var objNamePattern= createObject( "java", "java.util.regex.Pattern" ).Compile( '(?i)(?<=<cffunction name=")[^"]+(?=")' )>
+	<cfset var objNameMatcher= 0>
 	
-	<cfset content = '<cfcomponent'>
+	<cfset content= '<cfcomponent'>
 	<cfif len( arguments.extends )>
 		<cfset content &= ' extends="#arguments.extends#"'>
 	</cfif>
@@ -1265,32 +1264,32 @@ Use of source and redistribution, with or without modification, are prohibited w
 			file="#arguments.directory##arguments.separator##qFiles.name#"
 			variable="functionContent"
 		>
-		<cfset functionContent = trim( functionContent )>
+		<cfset functionContent= trim( functionContent )>
 		<cfif arguments.stripComments>
 			<!--- remove comments --->
-			<cfset functionContent = replaceList( functionContent, "<!---,--->", "`,`" )>
-			<cfset functionContent = reReplaceNoCase( functionContent, "`([^`]+)`", "", "all" ) & newline>
+			<cfset functionContent= replaceList( functionContent, "<!---,--->", "`,`" )>
+			<cfset functionContent= reReplaceNoCase( functionContent, "`([^`]+)`", "", "all" ) & newline>
 		</cfif>
 		<!--- indent --->
-		<!--- <cfset functionContent = tab & replace( trim( functionContent ), chr(13), chr(13) & tab, "all" )> --->
+		<!--- <cfset functionContent= tab & replace( trim( functionContent ), chr(13), chr(13) & tab, "all" )> --->
 		
-		<cfset objNameMatcher = objNamePattern.Matcher( functionContent )>
+		<cfset objNameMatcher= objNamePattern.Matcher( functionContent )>
 		<cfif objNameMatcher.find()>
-			<cfset functionName = objNameMatcher.Group()>
-			<cfset originalName = functionName>
+			<cfset functionName= objNameMatcher.Group()>
+			<cfset originalName= functionName>
 			<cfif left( functionName, 2 ) IS "db">
-				<cfset functionName = replace( functionName, "db", "" )>
+				<cfset functionName= replace( functionName, "db", "" )>
 			</cfif>
 			
 			<cfif len( arguments.inlineFilter ) AND reFindNoCase( replaceList( arguments.inlineFilter, ".,*,?", "\.,.+,." ), qFiles.name )>
-				<cfset functionContent = '<cfinclude template="#qFiles.name#">' & newline>
+				<cfset functionContent= '<cfinclude template="#qFiles.name#">' & newline>
 				<cfif left( originalName, 2 ) IS "db">
 					<cfset functionContent &= '<cfset this.#functionName# = variables.#originalName#>' & newline>
 					<cfset functionContent &= '<cfset structDelete( variables, "#originalName#" )>' & newline>
 				</cfif>
 			</cfif>
 			
-			<cfset functions[ functionName ] = functionContent>
+			<cfset functions[ functionName ]= functionContent>
 		</cfif>
 	</cfloop>
 	

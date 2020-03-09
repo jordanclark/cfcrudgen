@@ -1,73 +1,58 @@
-
-<cffunction name="deleteCrud" output="false">
-
-<cfargument name="sTableName" type="string" required="true">
-<cfargument name="sCommonName" type="string" default="#arguments.sTableName#">
-<cfargument name="sCrudName" type="string" default="#arguments.sCommonName##this.deleteSuffix#">
-<cfargument name="sFileName" type="string" default="dbg_#lCase( arguments.sCrudName )#.cfm">
-<cfargument name="lFilterFields" type="string" default="!PK">
-<cfargument name="lLikeFields" type="string" default="">
-<cfargument name="bSearchFields" type="boolean" default="false">
-
-<cfset var qMetadata = this.getTableMetadata( arguments.sTableName )>
-
-<cfset structAppend( arguments, this.stDefaults, false )>
-
-<cfset arguments.sUdfName = this.camelCase( "db_" & replaceNoCase( arguments.sCrudName, arguments.sCommonName, "" ) )>
-<cfset arguments.sCrudName = this.camelCase( arguments.sCrudName )>
-<cfset arguments.lFilterFields = this.filterColumnList( qMetadata, arguments.lFilterFields )>	
-<cfset arguments.lLikeFields = this.filterColumnList( qMetadata, arguments.lLikeFields )>
-<cfset arguments.lArgFields = arguments.lFilterFields>
-
-<cfif NOT listLen( arguments.lFilterFields )>
-	<cfset request.log( "!!Error: No fields to filter by. [DeleteCrud][#sTableName#]" )>
-	<cfreturn>
-	<cfthrow type="Custom.CFC.CrudGen.DeleteCrud.NoFilterFields"
-		message="No fields to filter by."
-	>
-</cfif>
-
-<!--- New buffer for crud --->
-<cfset this.addBuffer( arguments.sCrudName, "sql", true )>
-
-<!--- Build the comments --->
-<!--- <cfset this.appendBlank()>
-<cfset this.appendDivide()>
-<cfif listLen( arguments.lFilterFields )>
-	<cfset this.appendCommentLine( "Delete a single record from #arguments.sTableName#" )>
-	<cfset this.appendCommentLine( "based on fields: #replace( arguments.lFilterFields, ',', ', ', 'all' )#" )>
-<cfelse>
-	<cfset this.appendCommentLine( "Delete ALL records from #arguments.sTableName#" )>
-</cfif>
-<cfset this.appendDivide()>
-<cfset this.appendBlank()> --->
-
-<!--- Here is the meat and bones of it all --->
-	
-	<cfset this.append( "DELETE#this.sTab##this.sTab##this.tablePrefix##this.getSqlSafeName( listLast( arguments.sTableName, '.' ) )#" )>
-	<cfset appendWhereFields(
-		qMetadata= qMetadata
-	,	sColumnFilter= arguments.lFilterFields
-	,	lLikeFields= arguments.lLikeFields
-	,	bSearchFields= arguments.bSearchFields
-	)>
-	<cfset this.append( ";", false )>
-	
-	<cfset this.appendBlank()>
-	<cfset this.append( "SELECT#this.sTab##this.sTab#@@ROWCOUNT AS row_count;" )>
-	
-<cfset this.appendBlank()>
-
-<cfset arguments.qFields = qMetadata>
-<cfset arguments.lArgsOptional = ( arguments.bSearchFields ? arguments.lFilterFields : "" )>
-
-<!--- Store Param definition --->
-<cfset this.addDefinition( "delete", arguments, this.readBuffer( arguments.sCrudName ) )>
-
-<!--- Generate query tag at the same time --->
-<cfset this.writeDefinition( arguments.sCrudName, "#arguments.sBaseCfmDir#/#arguments.sCommonName#/#arguments.sFileName#", "CFC" )>
-
-
-<cfreturn>
-
-</cffunction>
+<cfscript>
+	boolean function deleteCrud(
+		required string sTableName
+	,	string sCommonName= arguments.sTableName
+	,	string sCrudName= "#arguments.sCommonName##this.deleteSuffix#"
+	,	string sFileName= "dbg_#lCase( arguments.sCrudName )#.cfm"
+	,	string lFilterFields= "!PK"
+	,	string lLikeFields= ""
+	,	boolean bSearchFields= false
+	) {
+		var qMetadata= this.getTableMetadata( arguments.sTableName );
+		if ( !qMetadata.recordCount ) {
+			return false;
+		}
+		structAppend( arguments, this.stDefaults, false );
+		arguments.sUdfName= this.camelCase( "db_" & replaceNoCase( arguments.sCrudName, arguments.sCommonName, "" ) );
+		arguments.sCrudName= this.camelCase( arguments.sCrudName );
+		arguments.lFilterFields= this.filterColumnList( qMetadata, arguments.lFilterFields );
+		arguments.lLikeFields= this.filterColumnList( qMetadata, arguments.lLikeFields );
+		arguments.lArgFields= arguments.lFilterFields;
+		if( !listLen( arguments.lFilterFields ) ) {
+			request.log( "!!Error: No fields to filter by. [DeleteCrud][#sTableName#]" );
+			// throw( message="No fields to filter by.", type="Custom.CFC.CrudGen.DeleteCrud.NoFilterFields" );
+			return false;
+		}
+		// New buffer for crud 
+		this.addBuffer( arguments.sCrudName, "sql", true );
+		// Build the comments 
+		// this.appendBlank();
+		// this.appendDivide();
+		// if( listLen( arguments.lFilterFields ) ) {
+		// 	this.appendCommentLine( "Delete a single record from #arguments.sTableName#" );
+		// 	this.appendCommentLine( "based on fields: #replace( arguments.lFilterFields, ',', ', ', 'all' )#" );
+		// } else {
+		// 	this.appendCommentLine( "Delete ALL records from #arguments.sTableName#" );
+		// }
+		// this.appendDivide();
+		// this.appendBlank();
+		//  Here is the meat and bones of it all 
+		this.append( "DELETE#this.sTab##this.sTab##this.tablePrefix##this.getSqlSafeName( listLast( arguments.sTableName, '.' ) )#" );
+		appendWhereFields(
+			qMetadata= qMetadata
+		,	sColumnFilter= arguments.lFilterFields
+		,	lLikeFields= arguments.lLikeFields
+		,	bSearchFields= arguments.bSearchFields
+		);
+		this.append( ";", false );
+		this.appendBlank();
+		this.append( "SELECT#this.sTab##this.sTab#@@ROWCOUNT AS row_count;" );
+		this.appendBlank();
+		arguments.qFields= qMetadata;
+		arguments.lArgsOptional= ( arguments.bSearchFields ? arguments.lFilterFields : "" );
+		// Store Param definition 
+		this.addDefinition( "delete", arguments, this.readBuffer( arguments.sCrudName ) );
+		// Generate query tag at the same time 
+		return this.writeDefinition( arguments.sCrudName, "#arguments.sBaseCfmDir#/#arguments.sCommonName#/#arguments.sFileName#", "CFC" );
+	}
+</cfscript>

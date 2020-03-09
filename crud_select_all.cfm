@@ -1,14 +1,12 @@
-
-<cffunction name="selectAllCrud" output="false" returnType="string">
-
-<cfargument name="sTableName" type="string" required="true">
-<cfargument name="sCommonName" type="string" default="#arguments.sTableName#">
-<cfargument name="sCrudName" type="string" default="#arguments.sCommonName##this.selectAllSuffix#">
-<cfargument name="sFileName" type="string" default="dbg_#lCase( arguments.sCrudName )#.cfm">
-
-<cfset arguments.lFilterFields = "!PK">
-<cfset arguments.lSelectFields = "*">
-
-<cfreturn this.selectCrud( argumentcollection = arguments )>
-
-</cffunction>
+<cfscript>	
+	boolean function selectAllCrud(
+		required string sTableName
+	,	string sCommonName= arguments.sTableName
+	,	string sCrudName= "#arguments.sCommonName##this.selectAllSuffix#"
+	,	string sFileName= "dbg_#lCase( arguments.sCrudName )#.cfm"
+	) {
+		arguments.lFilterFields= "!PK";
+		arguments.lSelectFields= "*";
+		return this.selectCrud( argumentcollection= arguments );
+	}
+</cfscript>
