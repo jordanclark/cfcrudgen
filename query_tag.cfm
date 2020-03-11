@@ -14,7 +14,7 @@
 		// New buffer for crud 
 		this.addBuffer( "query_#this.owner#.#stDef.stArgs.sCrudName#", "cfm", true );
 		// only execute query tag once 
-		this.append( '<cfif isDefined( "thisTag.executionMode" ) && thisTag.executionMode == "end">' );
+		this.append( '<cfif isDefined( "thisTag.executionMode" ) AND thisTag.executionMode IS "end">' );
 		this.indent();
 		this.append( '<cfexit method="exitTemplate">' );
 		this.unindent();

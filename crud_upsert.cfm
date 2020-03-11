@@ -110,7 +110,7 @@
 		}
 		this.appendBlank();
 		// If the record doesn't exist, INSERT 
-		this.append( "IF( @rows = 0 && @error = 0 )" );
+		this.append( "IF( @rows = 0 AND @error = 0 )" );
 		this.appendBegin();
 		this.append( "INSERT INTO #this.tablePrefix##this.getSqlSafeName( listLast( arguments.sTableName, '.' ) )# (" );
 		this.appendSelectFields(
@@ -160,7 +160,7 @@
 		// this.unindent();
 		// this.append( "COMMIT TRANSACTION;" );
 		// this.appendBlank();
-		// this.appendComment( "Check the transaction for errors && commit || rollback" );
+		// this.appendComment( "Check the transaction for errors and commit or rollback" );
 
 		this.appendBlank();
 		arguments.qFields= qMetadata;

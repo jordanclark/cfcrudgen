@@ -109,7 +109,7 @@
 			for( sItem in stDef.stArgs.lArgFields ) {
 				if( listFindNoCase( stDef.stFields[ sItem ].attribs, "identity" ) ) {
 					this.appendBlank();
-					this.append( "<cfif arguments.#stDef.stFields[ sItem ].fieldName# == """" || arguments.#stDef.stFields[ sItem ].fieldName# == ""0""><cfset arguments.#stDef.stFields[ sItem ].fieldName# = ""null""></cfif>" );
+					this.append( "<cfif arguments.#stDef.stFields[ sItem ].fieldName# IS """" OR arguments.#stDef.stFields[ sItem ].fieldName# IS ""0""><cfset arguments.#stDef.stFields[ sItem ].fieldName# = ""null""></cfif>" );
 				}
 			}
 		}

@@ -139,7 +139,7 @@
 		this.unindent();
 		this.append( "COMMIT TRANSACTION;" );
 		this.appendBlank();
-		this.appendComment( "Check the transaction for errors && commit || rollback" );
+		this.appendComment( "Check the transaction for errors and commit or rollback" );
 		this.appendBlank();
 		arguments.qFields= qMetadata;
 		arguments.lArgsOptional= arguments.lOptionalFields;
