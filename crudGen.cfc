@@ -1309,9 +1309,9 @@ Use of source and redistribution, with or without modification, are prohibited w
 	
 	<cffile action="write"
 		file="#arguments.filename#"
-		output= content
-		attributes= arguments.fileAttributes
-		mode= arguments.fileMode
+		output="#content#"
+		attributes="#arguments.fileAttributes#"
+		mode="#arguments.fileMode#"
 		addNewLine="false"
 	>
 	
