@@ -123,7 +123,7 @@
 		,	bOptionalFields="#( len( arguments.lRequiredFields ) )#"
 		);
 		this.unindent();
-		this.append( "WHEN !MATCHED BY TARGET THEN" );
+		this.append( "WHEN NOT MATCHED BY TARGET THEN" );
 		this.indent();
 		this.append( "INSERT (" );
 		this.appendSelectFields(

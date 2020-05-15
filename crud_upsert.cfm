@@ -77,7 +77,7 @@
 		);
 		this.appendBlank();
 		if( arguments.bIdentityField ) {
-			this.append( "<cfif arguments.#arguments.sIdentityField# != ""null"">" );
+			this.append( '<cfif arguments.#arguments.sIdentityField# IS NOT "null">' );
 			this.indent();
 		}
 		this.append( "UPDATE#this.sTab##this.sTab##this.tablePrefix##this.getSqlSafeName( listLast( arguments.sTableName, '.' ) )#" );
