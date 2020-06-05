@@ -122,7 +122,7 @@
 		} else if( stDef.sType == "count" ) {
 			this.appendLine( '<cfset "caller.##attributes.result##" = val( #sQuery#.total )>' );
 		} else if( stDef.sType == "exists" ) {
-			this.appendLine( '<cfset "caller.##attributes.result##" = ( #sQuery#.recordCount > 0 )>' );
+			this.appendLine( '<cfset "caller.##attributes.result##" = ( #sQuery#.recordCount GT 0 )>' );
 		} else if( stDef.sType == "insert" || stDef.sType == "save" ) {
 			this.appendLine( '<cfset "caller.##attributes.result##" = val( #sQuery#.pk_identity )>' );
 		} else if( listFindNoCase( "update,delete", stDef.sType ) ) {

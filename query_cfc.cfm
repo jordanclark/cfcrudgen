@@ -161,7 +161,7 @@
 		} else if( stDef.sType == "count" ) {
 			this.appendLine( '<cfreturn val( #sQuery#.total )>' );
 		} else if( stDef.sType == "exists" ) {
-			this.appendLine( '<cfreturn ( #sQuery#.recordCount > 0 )>' );
+			this.appendLine( '<cfreturn ( #sQuery#.recordCount GT 0 )>' );
 		} else if( listFindNoCase( "insert,merge,upsert,save", stDef.sType ) && stDef.stArgs.bIdentityField ) {
 			this.appendLine( '<cfreturn val( #sQuery#.pk_identity )>' );
 		} else if( listFindNoCase( "update,delete,remove", stDef.sType ) ) {
