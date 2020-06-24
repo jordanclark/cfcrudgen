@@ -71,9 +71,9 @@
 			}
 			if( stDef.stFields[ sItem ].cfType != "string" ) {
 				if( listFindNoCase( stDef.stArgs.lArgsOptional, sItem ) || listFindNoCase( "merge,upsert,save", stDef.sType ) ) {
-					this.appendOn( 'Type == #uCase( stDef.stFields[ sItem ].cfType )#.' );
+					this.appendOn( 'Type is #uCase( stDef.stFields[ sItem ].cfType )#.' );
 				} else if( !len( stDef.stFields[ sItem ].default ) && stDef.stFields[ sItem ].nullable ) {
-					this.appendOn( 'Type == #uCase( stDef.stFields[ sItem ].cfType )#, but == nullable.' );
+					this.appendOn( 'Type is #uCase( stDef.stFields[ sItem ].cfType )#, but is nullable.' );
 				}
 			}
 			this.appendOn( '"' );
