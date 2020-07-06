@@ -1,7 +1,7 @@
 {
     "name":"cfcrudgen",
     "slug":"cfcrudgen",
-    "version":"0.8.6",
+    "version":"0.8.7",
     "author":"Jordan Clark <jordanclark@gmail.com>",
     "keywords":[
         "crud",
@@ -9,7 +9,7 @@
     ],
     "shortDescription":"Custom ColdFusion CRUD tool",
     "type":"modules",
-    "location":"jordanclark/cfcrudgen#v0.8.6",
+    "location":"jordanclark/cfcrudgen#v0.8.7",
     "repository":{
         "URL":"https://github.com/jordanclark/cfcrudgen.git",
         "type":"GIT"
