@@ -7,7 +7,6 @@
 	,	string lFilterFields= "!NOTNULL,!COMPARABLE"
 	,	string lSelectFields= "*"
 	,	string lLikeFields= ""
-	,	string sOrderBy= "!PK"
 	,	boolean bSearchFields= true
 	,	string sType= "paginate"
 	) {
@@ -21,7 +20,6 @@
 		arguments.lFilterFields= this.filterColumnList( qMetadata, arguments.lFilterFields );
 		arguments.lSelectFields= this.filterColumnList( qMetadata, arguments.lSelectFields );
 		arguments.lLikeFields= this.filterColumnList( qMetadata, arguments.lLikeFields );
-		arguments.sOrderBy= this.filterColumnList( qMetadata, arguments.sOrderBy ) & " DESC";
 		arguments.lArgFields= arguments.lFilterFields;
 		arguments.bRowLimit= false;
 		if( !listLen( arguments.lSelectFields ) ) {
@@ -62,9 +60,9 @@
 		,	lLikeFields= arguments.lLikeFields
 		,	bSearchFields= arguments.bSearchFields
 		);
-		if( len( arguments.sOrderBy ) ) {
-			this.append( "ORDER BY#this.sTab##arguments.sOrderBy#" );
-		}
+		this.appendLine( '<cfif len( arguments.pageOrder )>' );
+		this.appendLine( 'ORDER BY#this.sTab###replace( arguments.pageOrder, "-", " ", "all" )##' );
+		this.appendLine( '</cfif>' );
 		this.appendLine( 'OFFSET <cfqueryparam value="##arguments.pageSize##" cfSqlType="integer"> * (<cfqueryparam value="##arguments.page##" cfSqlType="integer"> - 1) ROWS' );
 		this.appendLine( 'FETCH NEXT <cfqueryparam value="##arguments.pageSize##" cfSqlType="integer"> ROWS ONLY' );
 		this.append( ";", false );

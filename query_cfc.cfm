@@ -37,6 +37,7 @@
 		if( stDef.sType == "paginate" ) {
 			this.appendLine( '<cfargument name="page" type="numeric" default="1">' );
 			this.appendLine( '<cfargument name="pageSize" type="numeric" default="100">' );
+			this.appendLine( '<cfargument name="pageOrder" type="string" default="">' );
 		}
 		// add parameters for the input fields 
 		for( sItem in stDef.stArgs.lArgFields ) {
